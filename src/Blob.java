@@ -6,8 +6,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
  
 public class Blob {
-	static HashMap<String, String> blobs = new HashMap<String, String>();
-	public static String sha(String input)
+	//static HashMap<String, String> blobs = new HashMap<String, String>();
+	static String original;
+	static String sha; 
+	private static String changeSha(String input)
 	{
 		try {
 			// getInstance() method is called with algorithm SHA-1
@@ -38,19 +40,22 @@ public class Blob {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	public static void addBlob(String filename)  throws IOException{
-		Scanner in = new Scanner(new File(filename));
+	public Blob(String fileName) throws IOException{
+		Scanner in = new Scanner(new File(fileName));
 		String content= in.nextLine();
-		blobs.put(filename, sha(content));
-		//Appends that pair to a list in a file named 'index'
-
+		sha = changeSha(content);
+		original = content;
+		
 	}
-	public static void removeBlob(String filename) {
-		if(blobs.containsKey(filename)) {
-			blobs.remove(filename); 
-		}
+	public static String getSha() {
+		return sha;
 	}
 }
 //Java program to calculate SHA-1 hash value
+// creating a new file is not new File. tell it where to look "Path" class and write to that path
+/*
+ * Paht filePathToWrite = Paths.get(fileName);
+ * try{
+ * 		
+ */
 
