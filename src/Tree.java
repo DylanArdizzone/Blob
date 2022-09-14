@@ -36,6 +36,7 @@ public class Tree {
 
 
 		//METHOD CALLS
+		
 		monkeyAround(list); 
 		monkeyAround(alisted); 
 	}
@@ -77,21 +78,5 @@ public class Tree {
 		return strHashCode;
 	}
 
-	private static String getSHA1 (String s1){
-		String s = s1;
-		String ret = "";
 
-		//process
-		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-1");
-			digest.reset();
-			digest.update(s.getBytes("utf8"));
-			ret = String.format("%040x", new BigInteger(1, digest.digest()));
-		} catch (Exception e){
-
-			e.printStackTrace();
-		}
-
-		return ret; 
-	}
 }

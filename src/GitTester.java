@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException; 
-
+import java.util.*; 
 class GitTester {
 
 	@BeforeAll
@@ -38,6 +38,23 @@ class GitTester {
 		PrintWriter barw = new PrintWriter(bar); 
 		barw.append("bar content"); 
 		barw.close(); 
+
+
+		//TEST 1
+		ArrayList<String> list = new ArrayList<String>(); 
+		list.add("f : oo"); 
+		list.add("b : ar"); 
+		list.add("foo : bar"); 
+
+		//TEST 2
+		ArrayList<String> alisted = new ArrayList<String>();
+		alisted.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f");
+		alisted.add("blob : 01d82591292494afd1602d175e165f94992f6f5f");
+		alisted.add("blob : f1d82236ab908c86ed095023b1d2e6ddf78a6d83");
+		alisted.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
+		alisted.add("tree : e7d79898d3342fd15daf6ec36f4cb095b52fd976");
+
+
 
 	}
 
@@ -78,6 +95,28 @@ class GitTester {
 
 
 	@Test
+	void testTree() throws FileNotFoundException, NoSuchAlgorithmException {
+		//TEST 1
+		ArrayList<String> list = new ArrayList<String>(); 
+		list.add("f : oo"); 
+		list.add("b : ar"); 
+		list.add("foo : bar"); 
+
+		//TEST 2
+		ArrayList<String> alisted = new ArrayList<String>();
+		alisted.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f");
+		alisted.add("blob : 01d82591292494afd1602d175e165f94992f6f5f");
+		alisted.add("blob : f1d82236ab908c86ed095023b1d2e6ddf78a6d83");
+		alisted.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
+		alisted.add("tree : e7d79898d3342fd15daf6ec36f4cb095b52fd976");
+
+		Tree t = new Tree(); 
+		t.monkeyAround(list);
+		t.monkeyAround(alisted); 
+
+	}
+
+	@Test
 	void testBlob() throws IOException {
 
 		//blob
@@ -95,7 +134,7 @@ class GitTester {
 		Index i = new Index(); 
 		i.init(); 
 		File f = new File ("objects/index.txt"); 
-//		assertTrue(f.exists()); 
+		//		assertTrue(f.exists()); 
 		Path f2 = Paths.get("objects"); 
 		assertTrue(Files.exists(f2)); 
 
