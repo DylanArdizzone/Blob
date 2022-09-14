@@ -14,16 +14,17 @@ public class Index {
 	}
 	*/
 	public void init() throws IOException {
+		
 		File ob = new File("objects");
+	
 		if(ob.mkdir()) {
 			System.out.println("directory created");
-		}else {
+		} else {
 			System.out.println("directory not created");
 		}
-		Path o= Paths.get("objects");
+		Path o = Paths.get("objects");
 		File nf = new File(o + "/index.txt");
 		nf.createNewFile();
-		
 		
 	}
 	public static void add(String filename)  throws IOException, NoSuchAlgorithmException{
