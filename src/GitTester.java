@@ -117,7 +117,7 @@ class GitTester {
 	}
 
 	@Test
-	void testBlob() throws IOException {
+	void testBlob() throws IOException, NoSuchAlgorithmException {
 
 		//blob
 		Blob b = new Blob("something.txt"); 
