@@ -55,48 +55,32 @@ public class Blob {
 	}
 	public Blob(String fileName) throws IOException,  FileNotFoundException, NoSuchAlgorithmException{
 		File originalf = new File(fileName);
+		sha = changeSha(fileName);
+		File nf = new File("objects/" + sha);
 		String content = fileContents(fileName, StandardCharsets.US_ASCII);
-		String shaHash = changeSha(content);
-		sha = shaHash;
-		original = content;
-		File nf = new File("objects/"+ shaHash + ".txt");
 		
-		copy(nf, originalf);
+		original = content;
+		
+		copyFileUsingStream(nf, originalf);
 		
 	}
 	
-	//from geeksforgeeks
-	public static void copy(File a, File b)throws IOException  {
-		FileInputStream in = new FileInputStream(a);
-        FileOutputStream out = new FileOutputStream(b);
-  
-        try {
-  
-            int n;
-  
-            // read() function to read the
-            // byte of data
-            while ((n = in.read()) != -1) {
-                // write() function to write
-                // the byte of data
-                out.write(n);
-            }
-        }
-        finally {
-            if (in != null) {
-  
-                // close() function to close the
-                // stream
-                in.close();
-            }
-            // close() function to close
-            // the stream
-            if (out != null) {
-                out.close();
-            }
-        }
-        System.out.println("File Copied");
-    }
+	private static void copyFileUsingStream(File source, File dest) throws IOException {
+	    InputStream is = null;
+	    OutputStream os = null;
+	    try {
+	        is = new FileInputStream(source);
+	        os = new FileOutputStream(dest);
+	        byte[] buffer = new byte[1024];
+	        int length;
+	        while ((length = is.read(buffer)) > 0) {
+	            os.write(buffer, 0, length);
+	        }
+	    } finally {
+	        is.close();
+	        os.close();
+	    }
+	}
 
 	public String fileContents(String path, Charset encoding) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));

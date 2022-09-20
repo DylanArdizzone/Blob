@@ -16,7 +16,7 @@ public class Index {
 	public void init() throws IOException {
 		
 		File ob = new File("objects");
-	
+		ob.mkdir();
 		if(ob.mkdir()) {
 			System.out.println("directory created");
 		} else {
@@ -28,6 +28,8 @@ public class Index {
 		
 	}
 	public static void add(String filename)  throws IOException, NoSuchAlgorithmException{
+		//Path p = Paths.get(filename);
+		//String fp = p.toAbsolutePath() + ""; 
 		Blob b = new Blob(filename);
 		
 		blobs.put(filename, b.getSha());
@@ -39,23 +41,20 @@ public class Index {
  		out.close();
 	}
 	public static void removeBlob(String filename) throws FileNotFoundException {
-		if(blobs.containsKey(filename)) {
-			 
-			File f = new File( "objects/" + blobs.get(filename));
-			if(!f.delete())
-				System.out.println("cannot delete file");
-			else
-				System.out.println("file deleted");
-			
-			blobs.remove(filename);
-			PrintWriter out = new PrintWriter("./objects/index");
-	 		for (String file: blobs.keySet()) 
-	 			out.println(file + " : " + blobs.get(file));
-	 	 	
-	 		out.close();
-	 		return;
-		}
-		System.out.println("File does not exist");
+
+		String sha = blobs.get(filename);
+		blobs.remove(filename);
+		File f= new File("objects/"+sha);
+		f.delete();
+		
+		PrintWriter out = new PrintWriter("./objects/index.txt");
+ 		for (String file: blobs.keySet()) 
+ 			out.append(file + " : " + blobs.get(file));
+ 	 	
+ 		out.close();
+	 		//return;
+		
+		//System.out.println("File does not exist");
 		
 	}
 }

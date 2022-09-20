@@ -60,7 +60,8 @@ public class Commit {
 		return strDate; 
 	}
 	public static void writesFiles() {
-		
+		File file = new File()
+		PrintWriter out = new PrintWriter(new File(""))
 	}
 	
 }
