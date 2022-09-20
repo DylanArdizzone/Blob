@@ -34,7 +34,7 @@ public class Index {
 		
 		blobs.put(filename, b.getSha());
 		//Appends that pair to a list in a file named 'index'
-		PrintWriter out = new PrintWriter("./objects/index");
+		PrintWriter out = new PrintWriter("objects/index");
  		for (String file: blobs.keySet()) 
  			out.println(file + " : " + blobs.get(file));
  	 	
@@ -47,7 +47,7 @@ public class Index {
 		File f= new File("objects/"+sha);
 		f.delete();
 		
-		PrintWriter out = new PrintWriter("./objects/index.txt");
+		PrintWriter out = new PrintWriter("objects/index.txt");
  		for (String file: blobs.keySet()) 
  			out.append(file + " : " + blobs.get(file));
  	 	
