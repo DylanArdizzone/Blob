@@ -17,14 +17,18 @@ public class Commit {
 	private static String summary;
 	private static String date;
 	private static String filename;
+	private static File pfile;
 	public Commit(String pt, String summ, String a, String pointer) throws NoSuchAlgorithmException, FileNotFoundException, IOException {
 		pTree = pt;
 		summary = summ;
+		pfile =null;
 		author = a;
 		if(pointer == null)
 			parent= null;
-		else
+		else {
 			parent = pointer;
+			pfile= new File ("test/objects/" + pointer);
+		}
 		child = null;
 		date = getDate();
 		String temp = summary + date+author+parent;
@@ -40,7 +44,7 @@ public class Commit {
 	public void child(Commit c) {
 		child = c.getFileName();
 	}
-	private String sha1Code(String str) {
+	private static String sha1Code(String str) {
 		String value = str;
 		String sha1 = "";
 		try {
@@ -86,9 +90,22 @@ public class Commit {
 		return strDate; 
 	}
 	public static void writeFile() throws FileNotFoundException {
+		String print = "";
 		File file = new File(filename);
 		PrintWriter out = new PrintWriter("test/objects/" + file);
-		out.append(filename + "\n" + parent  + "\n" + child  + "\n" + author  + "\n" + date  + "\n" + summary + "\n");
+		print += filename + "\n";
+		if(parent == null) {
+			print+="\n";
+		}else {
+			print+= sha1Code(parent) + "\n";
+		}
+		
+		if(child == null) {
+			print+="\n";
+		}else {
+			print+=sha1Code(child) +"\n";
+		}
+		out.append(print + author  + "\n" + date  + "\n" + summary + "\n");
 		out.close();
 		
 		/*
