@@ -71,7 +71,7 @@ class GitTester {
 
 		//delete objects with contents inside
 		File if2 = new File ("objects"); 
-		deleteDir(if2); 
+		//deleteDir(if2); 
 
 
 		//delete inputs for index 
@@ -168,7 +168,7 @@ class GitTester {
 		i.init(); 
 		i.removeBlob("foo.txt");
 		File i1 = new File ("objects/ec097bb2a51eb70410d13bbe94ef0319680accb6"); 
-		assertTrue(i1.exists());
+		assertFalse(i1.exists());
 
 		//can't remove with no add
 

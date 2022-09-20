@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 public class Commit {
 	private static String parent = null;
 	private static String child = null;
@@ -27,12 +28,29 @@ public class Commit {
 		child = null;
 		date = getDate();
 		String temp = summary + date+author+parent;
-		temp += sha1Code(temp);
+		temp = sha1Code(temp);
 		filename = temp;
 		writeFile(); 
 		
 		
 	}
+	private String sha1Code(String str) {
+		String value = str;
+		String sha1 = "";
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-1");
+	        digest.reset();
+	        digest.update(value.getBytes("utf8"));
+	        sha1 = String.format("%040x", new BigInteger(1, digest.digest()));
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return sha1;
+	}
+	
+	
+	/* THIS IS THE OLD SHA1
 	public static String sha1Code(String filePath) throws IOException, NoSuchAlgorithmException, FileNotFoundException {
         FileInputStream fileInputStream = new FileInputStream(filePath);
         MessageDigest digest = MessageDigest.getInstance("SHA-1");
@@ -53,7 +71,7 @@ public class Commit {
             sb.append(Integer.toHexString(value).toUpperCase());
         }
         return sb.toString();
-    }
+    }*/
 	public static String getDate() {
 		// from javatpoint
 		Date date = Calendar.getInstance().getTime();  
@@ -63,11 +81,17 @@ public class Commit {
 	}
 	public static void writeFile() throws FileNotFoundException {
 		File file = new File(filename);
-		PrintWriter out = new PrintWriter("objects/" + file);
+		PrintWriter out = new PrintWriter("test/objects/" + file);
 		out.append(filename + "\n" + parent  + "\n" + child  + "\n" + author  + "\n" + date  + "\n" + summary + "\n");
 		out.close();
 		
-		
+		/*
+		 * Every time you make a commit with a parent, that parent gets a child
+		 * When the child is made, it has its own location (parent already exists)
+		 * Using the files that you wrote to (in test/object) change the information on the files
+		 * for example for the parent, in the spot where its supposed to have child (is null) -> child name 
+		 * for child, regular parent function which you already have 
+		 */
 	}
 	
 }
