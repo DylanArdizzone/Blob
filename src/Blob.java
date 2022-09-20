@@ -22,6 +22,7 @@ public class Blob {
 	//static HashMap<String, String> blobs = new HashMap<String, String>();
 	static String original;
 	static String sha; 
+	/*
 	private static String changeSha(String input)
 	{
 		try {
@@ -53,9 +54,33 @@ public class Blob {
 			throw new RuntimeException(e);
 		}
 	}
+	*/
+	public static String sha1Code(String filePath) throws IOException, NoSuchAlgorithmException, FileNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+        MessageDigest digest = MessageDigest.getInstance("SHA-1");
+        DigestInputStream digestInputStream = new DigestInputStream(fileInputStream, digest);
+        byte[] bytes = new byte[1024];
+        while (digestInputStream.read(bytes) > 0);
+        byte[] resultByteArry = digest.digest();
+        return bytesToHexString(resultByteArry);
+    }
+    
+    public static String bytesToHexString(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            int value = b & 0xFF;
+            if (value < 16) {
+                sb.append("0");
+            }
+            sb.append(Integer.toHexString(value).toUpperCase());
+        }
+        return sb.toString();
+    }
+    /*
 	public Blob(String fileName) throws IOException,  FileNotFoundException, NoSuchAlgorithmException{
 		File originalf = new File(fileName);
-		sha = changeSha(fileName);
+		sha = sha1Code(fileName);
+		
 		File nf = new File("objects/" + sha);
 		String content = fileContents(fileName, StandardCharsets.US_ASCII);
 		
@@ -64,7 +89,27 @@ public class Blob {
 		copyFileUsingStream(nf, originalf);
 		
 	}
+	*/
+    
+    public Blob(String filename) throws IOException,  FileNotFoundException, NoSuchAlgorithmException{
+    	File f = new File(filename);
+    	sha = sha1Code (filename);
 	
+		Scanner in = new Scanner(f);
+		PrintWriter out = new PrintWriter (new FileWriter("./objects/"+ sha));
+		while(in.hasNextLine()) {
+	        String s = in.nextLine();
+	        out.write(s);
+	    }
+		//if(in != null) {
+			in.close();  
+		//}
+		//if(out != null) {
+			out.flush();
+			out.close();
+		//}
+    }
+    /*
 	private static void copyFileUsingStream(File source, File dest) throws IOException {
 	    InputStream is = null;
 	    OutputStream os = null;
@@ -86,6 +131,7 @@ public class Blob {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);
     }
+    */
 	public static String getSha() {
 		return sha;
 	}

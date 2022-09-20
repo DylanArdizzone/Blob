@@ -34,6 +34,12 @@ public class Commit {
 		
 		
 	}
+	public String getFileName() {
+		return filename;
+	}
+	public void child(Commit c) {
+		child = c.getFileName();
+	}
 	private String sha1Code(String str) {
 		String value = str;
 		String sha1 = "";
