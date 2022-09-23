@@ -12,22 +12,24 @@ import java.security.NoSuchAlgorithmException;
 public class Commit {
 	private static String parent = null;
 	private static String child = null;
-	private static String pTree; 
 	private static String author;
 	private static String summary;
 	private static String date;
 	private static String filename;
-	private static File pfile;
+	private static Tree rTree;
+	
 	public Commit(String pt, String summ, String a, String pointer) throws NoSuchAlgorithmException, FileNotFoundException, IOException {
-		pTree = pt;
 		summary = summ;
-		pfile =null;
 		author = a;
+		rTree = new Tree();
+		ArrayList<String> k = new ArrayList<String>();
+		k.add(pt);
+		rTree.monkeyAround(k);
+		
 		if(pointer == null)
 			parent= null;
 		else {
 			parent = pointer;
-			pfile= new File ("test/objects/" + pointer);
 		}
 		child = null;
 		date = getDate();
