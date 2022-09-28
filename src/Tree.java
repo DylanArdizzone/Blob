@@ -65,10 +65,6 @@ public class Tree {
 
 	}
 	
-	public String getName() {
-		return nomen;
-	}
-	
 	private static String GenerateHash(String input) throws NoSuchAlgorithmException {
 		MessageDigest objSHA = MessageDigest.getInstance("SHA-1");
 		byte[] bytSHA = objSHA.digest(input.getBytes());

@@ -20,8 +20,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 public class Blob {
 	//static HashMap<String, String> blobs = new HashMap<String, String>();
-	static String original;
-	static String sha; 
+	private String original;
+	private String sha; 
 	/*
 	private static String changeSha(String input)
 	{
@@ -55,7 +55,7 @@ public class Blob {
 		}
 	}
 	*/
-	public static String sha1Code(String filePath) throws IOException, NoSuchAlgorithmException, FileNotFoundException {
+	public String sha1Code(String filePath) throws IOException, NoSuchAlgorithmException, FileNotFoundException {
         FileInputStream fileInputStream = new FileInputStream(filePath);
         MessageDigest digest = MessageDigest.getInstance("SHA-1");
         DigestInputStream digestInputStream = new DigestInputStream(fileInputStream, digest);
@@ -65,7 +65,7 @@ public class Blob {
         return bytesToHexString(resultByteArry);
     }
     
-    public static String bytesToHexString(byte[] bytes) {
+    public String bytesToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes) {
             int value = b & 0xFF;
@@ -132,7 +132,7 @@ public class Blob {
         return new String(encoded, encoding);
     }
     */
-	public static String getSha() {
+	public String getSha() {
 		return sha;
 	}
 }
