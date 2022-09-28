@@ -99,7 +99,7 @@ public class Blob {
 		PrintWriter out = new PrintWriter (new FileWriter("./objects/"+ sha));
 		while(in.hasNextLine()) {
 	        String s = in.nextLine();
-	        out.write(s);
+	        out.write(s+"\n");
 	    }
 		//if(in != null) {
 			in.close();  

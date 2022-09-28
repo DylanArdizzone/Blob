@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException; 
 public class Tree {
+	private String nomen;
 //	public static void main (String [] args) throws FileNotFoundException, NoSuchAlgorithmException {
 //		File folder = new File ("objects"); 
 //		folder.mkdir(); 
@@ -46,23 +47,26 @@ public class Tree {
 
 	}
 
-	public static void monkeyAround(ArrayList<String> arr) throws FileNotFoundException, NoSuchAlgorithmException {
+	public void monkeyAround(ArrayList<String> arr) throws FileNotFoundException, NoSuchAlgorithmException {
 		String s = ""; 
 		for (int i = 0; i < arr.size(); i++) {
 			s += arr.get(i) + "\n"; 
 		}
 		s = s.substring(0,s.length()-1); 
 		String name = GenerateHash(s); //for file name
+		nomen = name;
 		//System.out.println ("F:" + name); 
-		File file = new File ("test/objects/" + name); 
+		File file = new File ("objects/" + name); 
 		PrintWriter pw = new PrintWriter (file); 
 		for (int i = 0; i < arr.size(); i++) {
 			pw.append(arr.get(i)); 
 			pw.append("\n"); 
 		}
 		pw.close();	
-		
-
+	}
+	
+	public String getName() {
+		return nomen;
 	}
 	
 	private static String GenerateHash(String input) throws NoSuchAlgorithmException {

@@ -27,7 +27,7 @@ public class Commit {
 		BufferedReader fr = new BufferedReader(new FileReader(f));
 		while(fr.ready()) {
 			String s = fr.readLine();
-			k.add("blob : " + s.substring(0,s.indexOf(":")) + s.substring(s.indexOf(":")+2));
+			k.add("blob : " + s.substring(s.indexOf(":")+2) +" " + s.substring(0,s.indexOf(":")));
 		}
 		fr.close();
 		
@@ -36,7 +36,11 @@ public class Commit {
 			parent= null;
 		else {
 			parent = pointer;
-			k.add("tree : " + pointer);
+			File lk = new File(pointer);
+			BufferedReader br = new BufferedReader(new FileReader(lk));
+			String s = br.readLine();
+			br.close();
+			k.add("tree : " + s);
 		}
 		
 		rTree.monkeyAround(k);
@@ -47,13 +51,26 @@ public class Commit {
 		temp = sha1Code(temp);
 		filename = temp;
 		writeFile(); 
-		
+		clearIndex();
 		
 	}
+	
+	public void clearIndex() {
+		  try{
+			    FileWriter fw = new FileWriter("Index", false);
+			    PrintWriter pw = new PrintWriter(fw, false);
+			    pw.flush();
+			    pw.close();
+			    fw.close();
+			    }catch(Exception exception){
+			        System.out.println("Exception have been caught");
+			    }
+	}
+	
 	public String getFileName() {
 		return filename;
 	}
-	public void child(Commit c) {
+	public void setChild(Commit c) {
 		child = c.getFileName();
 	}
 	private static String sha1Code(String str) {
@@ -104,8 +121,8 @@ public class Commit {
 	public static void writeFile() throws FileNotFoundException {
 		String print = "";
 		File file = new File(filename);
-		PrintWriter out = new PrintWriter("test/objects/" + file);
-		print += filename + "\n";
+		PrintWriter out = new PrintWriter("objects/" + file);
+		print += rTree.getName() + "\n";
 		if(parent == null) {
 			print+="\n";
 		}else {
