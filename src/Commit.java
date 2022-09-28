@@ -36,12 +36,12 @@ public class Commit {
 			parent= null;
 		else {
 			parent = pointer;
-			File lk = new File(pointer);
+			File lk = new File("objects/" + pointer);
 			BufferedReader br = new BufferedReader(new FileReader(lk));
 			String s = br.readLine();
 			br.close();
 			k.add("tree : " + s);
-		}
+		} //change the constructer from "String pointer" to "commit pointer" so when setting parent to pointer can set this one as child???
 		
 		rTree.monkeyAround(k);
 		
