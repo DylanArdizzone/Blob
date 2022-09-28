@@ -18,19 +18,33 @@ public class Commit {
 	private static String filename;
 	private static Tree rTree;
 	
-	public Commit(String pt, String summ, String a, String pointer) throws NoSuchAlgorithmException, FileNotFoundException, IOException {
+	public static void main (String [] args) throws NoSuchAlgorithmException, FileNotFoundException, IOException {
+		Commit k = new Commit("2", "3", "4");
+	}
+	
+	public Commit(String summ, String a, String pointer) throws NoSuchAlgorithmException, FileNotFoundException, IOException {
 		summary = summ;
 		author = a;
 		rTree = new Tree();
 		ArrayList<String> k = new ArrayList<String>();
-		k.add(pt);
-		rTree.monkeyAround(k);
+		File f = new File("index.txt");
+		BufferedReader fr = new BufferedReader(new FileReader(f));
+		while(fr.ready()) {
+			String s = fr.readLine();
+			k.add("blob : " + s.substring(0,s.indexOf(":")) + s.substring(s.indexOf(":")+2));
+		}
+		fr.close();
+		
 		
 		if(pointer == null)
 			parent= null;
 		else {
 			parent = pointer;
+			k.add("tree : " + pointer);
 		}
+		
+		rTree.monkeyAround(k);
+		
 		child = null;
 		date = getDate();
 		String temp = summary + date+author+parent;

@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException; 
 public class Tree {
-
 //	public static void main (String [] args) throws FileNotFoundException, NoSuchAlgorithmException {
 //		File folder = new File ("objects"); 
 //		folder.mkdir(); 
@@ -54,8 +53,7 @@ public class Tree {
 		}
 		s = s.substring(0,s.length()-1); 
 		String name = GenerateHash(s); //for file name
-		System.out.println ("F:" + name); 
-
+		//System.out.println ("F:" + name); 
 		File file = new File ("test/objects/" + name); 
 		PrintWriter pw = new PrintWriter (file); 
 		for (int i = 0; i < arr.size(); i++) {
@@ -66,6 +64,11 @@ public class Tree {
 		
 
 	}
+	
+	public String getName() {
+		return nomen;
+	}
+	
 	private static String GenerateHash(String input) throws NoSuchAlgorithmException {
 		MessageDigest objSHA = MessageDigest.getInstance("SHA-1");
 		byte[] bytSHA = objSHA.digest(input.getBytes());
