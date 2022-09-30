@@ -36,6 +36,8 @@ public class Index {
  		//Appends that pair to a list in a file named 'index'
  		File agga= new File("index");
  		PrintWriter pw = new PrintWriter(new FileWriter(agga, true));
+ 		pw.write(filename + " : " + b.getSha()+"\n");
+ 		pw.close();
 // 		PrintWriter out = new PrintWriter("index");
 // 		for (String file: blobs.keySet()) 
 // 		out.println(file + " : " + blobs.get(file));
