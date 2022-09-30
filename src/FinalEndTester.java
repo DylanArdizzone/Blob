@@ -15,10 +15,15 @@ public class FinalEndTester {
 //		System.out.println(comm.getFileName());
 //		
 //		System.out.println("1: " + comm.getFileName() + " ---- 2: " + comm2.getFileName());
-		comm.setChild(comm2); //setting child changes sha1code no longer points to real filename
+		comm.setChild(comm2);
+		
+		i.add("superMarioBrothers2.txt");
+		Commit comm3= new Commit("third commit", "me one more time :)", comm2);
+		comm2.setChild(comm3);
+		
 		System.out.println(comm.getFileName());
 		System.out.println(comm2.getFileName());
-//		i.add("superMarioBrothers2.txt");
+		System.out.println(comm3.getFileName());
 	}
 
 }
