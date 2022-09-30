@@ -10,17 +10,20 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Commit {
-	private static String parent = null;
-	private static String child = null;
+	private static Commit parent;
+	private static Commit child;
 	private static String author;
 	private static String summary;
 	private static String date;
 	private static String filename;
+	private String absoluteFileName;
 	private static Tree rTree;
 	
-	public Commit(String summ, String a, String pointer) throws NoSuchAlgorithmException, FileNotFoundException, IOException {
+	public Commit(String summ, String a, Commit pointer) throws NoSuchAlgorithmException, FileNotFoundException, IOException {
 		summary = summ;
 		author = a;
+		parent = null;
+		child = null;
 		rTree = new Tree();
 		ArrayList<String> k = new ArrayList<String>();
 		File f = new File("index");
@@ -36,7 +39,7 @@ public class Commit {
 			parent= null;
 		else {
 			parent = pointer;
-			File lk = new File("objects/" + pointer);
+			File lk = new File("objects/" + pointer.getFileName());
 			BufferedReader br = new BufferedReader(new FileReader(lk));
 			String s = br.readLine();
 			br.close();
@@ -50,6 +53,7 @@ public class Commit {
 		String temp = summary + date+author+parent;
 		temp = sha1Code(temp);
 		filename = temp;
+		absoluteFileName = temp;
 		writeFile(); 
 		clearIndex();
 		
@@ -68,10 +72,28 @@ public class Commit {
 	}
 	
 	public String getFileName() {
-		return filename;
+		return absoluteFileName;
 	}
-	public void setChild(Commit c) {
-		child = c.getFileName();
+	public void setChild(Commit c) throws IOException {
+		child = c;
+		
+		File f = new File("objects/"+absoluteFileName);
+		ArrayList<String> bigFile = new ArrayList<String>();
+		BufferedReader br = new BufferedReader(new FileReader(f));
+		while(br.ready()) {
+			bigFile.add(br.readLine());
+		}
+		br.close();
+		PrintWriter pw = new PrintWriter(new FileWriter(f));
+		for(int i=0; i<bigFile.size(); i++) {
+			if(i==2) {
+				pw.write(c.getFileName()+"\n");
+			}
+			else {
+				pw.write(bigFile.get(i)+"\n");
+			}
+		}
+		pw.close();
 	}
 	private static String sha1Code(String str) {
 		String value = str;
@@ -126,13 +148,15 @@ public class Commit {
 		if(parent == null) {
 			print+="\n";
 		}else {
-			print+= sha1Code(parent) + "\n";
+			//print+= sha1Code(parent) + "\n";
+			print += parent.getFileName()+"\n";
 		}
 		
 		if(child == null) {
 			print+="\n";
 		}else {
-			print+=sha1Code(child) +"\n";
+			//print+=sha1Code(child) +"\n";
+			print+=child.getFileName();
 		}
 		out.append(print + author  + "\n" + date  + "\n" + summary + "\n");
 		out.close();
