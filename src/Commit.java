@@ -57,6 +57,11 @@ public class Commit {
 		writeFile(); 
 		clearIndex();
 		
+		File head = new File("HEAD.txt");
+		head.createNewFile();
+		PrintWriter w2w = new PrintWriter(new FileWriter(head)); 
+		w2w.write(absoluteFileName);
+		w2w.close();
 	}
 	
 	public void clearIndex() {
