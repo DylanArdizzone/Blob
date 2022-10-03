@@ -21,9 +21,14 @@ public class FinalEndTester {
 		Commit comm3= new Commit("third commit", "me one more time :)", comm2);
 		comm2.setChild(comm3);
 		
-		System.out.println(comm.getFileName());
-		System.out.println(comm2.getFileName());
-		System.out.println(comm3.getFileName());
+		i.add("fourthtexttester.txt");
+		Commit comm4 = new Commit("fourth commit", "me 4", comm3);
+		comm3.setChild(comm4);
+		
+		System.out.println("first commit: " + comm.getFileName());
+		System.out.println("second commit: " + comm2.getFileName());
+		System.out.println("third commit: " + comm3.getFileName());
+		System.out.println("fourth commit: " + comm4.getFileName());
 	}
 
 }
